@@ -10,7 +10,7 @@ import (
 
 const (
 	UltraHost = "https://restapi.ultradns.com"
-	AuthURL = UltraHost + "/v1/authorization/token"
+	AuthURL   = UltraHost + "/v1/authorization/token"
 )
 
 //type SearchParam struct {
@@ -58,11 +58,11 @@ type RegistrarInfo struct {
 	Registrar    string `json:"registrar"`
 	WhoIsExpires string `json:"whoisExpiration,omitempty"`
 	NameServers  struct {
-		             Ok        []string `json:"ok,omitempty"`
-		             Unknown   []string `json:"unknown,omitempty"`
-		             Missing   []string `json:"missing,omitempty"`
-		             InCorrect []string `json:"incorrect,omitempty"`
-	             } `json:"nameServers,omitempty"`
+		Ok        []string `json:"ok,omitempty"`
+		Unknown   []string `json:"unknown,omitempty"`
+		Missing   []string `json:"missing,omitempty"`
+		InCorrect []string `json:"incorrect,omitempty"`
+	} `json:"nameServers,omitempty"`
 }
 
 type Zone struct {
@@ -163,8 +163,8 @@ func (ud *UltraDns) GetAccountDetails() ([]AccInfo, error) {
 		Accounts []AccInfo  `json:"accounts"`
 	}
 
-	_, body, err := ud.Client.Get(UltraHost + "/v1/accounts").
-	Set("Authorization", ud.tokenHeader).End()
+	_, body, err := ud.Client.Get(UltraHost+"/v1/accounts").
+		Set("Authorization", ud.tokenHeader).End()
 	if err != nil {
 		return Res.Accounts, errors.New("Authentication Failed")
 	}
@@ -185,8 +185,8 @@ func (ud *UltraDns) GetAllZones() ([]Zone, error) {
 		Zones []Zone     `json:"zones"`
 	}
 
-	_, body, err := ud.Client.Get(UltraHost + "/v1/zones").
-	Set("Authorization", ud.tokenHeader).End()
+	_, body, err := ud.Client.Get(UltraHost+"/v1/zones").
+		Set("Authorization", ud.tokenHeader).End()
 	if err != nil {
 		return Res.Zones, errors.New("Authentication Failed")
 	}
@@ -208,10 +208,10 @@ func (ud *UltraDns) GetRRsets(zName string, offset, limit int) ([]RRSet, ResultI
 		RRSets []RRSet    `json:"rrSets"`
 	}
 
-	_, body, err := ud.Client.Get(UltraHost + "/v1/zones/" + zName + "/rrsets").
-	Query("offset=" + strconv.Itoa(offset)).
-	Query("&limit=" + strconv.Itoa(limit)).
-	Set("Authorization", ud.tokenHeader).End()
+	_, body, err := ud.Client.Get(UltraHost+"/v1/zones/"+zName+"/rrsets").
+		Query("offset="+strconv.Itoa(offset)).
+		Query("&limit="+strconv.Itoa(limit)).
+		Set("Authorization", ud.tokenHeader).End()
 	if err != nil {
 		return Res.RRSets, Res.RInfo, errors.New("Authentication Failed")
 	}
